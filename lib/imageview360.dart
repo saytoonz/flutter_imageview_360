@@ -14,7 +14,7 @@ class ImageView360 extends StatefulWidget {
   // By default false. If set to true, the images will be displayed in incremented manner.
   final bool autoRotate;
 
-  // By default true. If set to false, the gestures to rotate the image will be disabed.
+  // By default true. If set to false, the gestures to rotate the image will be disabled.
   final bool allowSwipeToRotate;
 
   // By default 1. The no of cycles the whole image rotation should take place.
@@ -49,19 +49,19 @@ class ImageView360 extends StatefulWidget {
 }
 
 class _ImageView360State extends State<ImageView360> {
-  late int rotationIndex, senstivity;
+  late int rotationIndex, sensitivity;
   int rotationCompleted = 0;
   double localPosition = 0.0;
   late Function(int? currentImageIndex) onImageIndexChanged;
 
   @override
   void initState() {
-    senstivity = widget.swipeSensitivity;
+    sensitivity = widget.swipeSensitivity;
     // To bound the sensitivity range from 1-5
-    if (senstivity < 1) {
-      senstivity = 1;
-    } else if (senstivity > 5) {
-      senstivity = 5;
+    if (sensitivity < 1) {
+      sensitivity = 1;
+    } else if (sensitivity > 5) {
+      sensitivity = 5;
     }
     onImageIndexChanged = widget.onImageIndexChanged ?? (currentImageIndex) {};
     rotationIndex = widget.rotationDirection == RotationDirection.anticlockwise
@@ -136,15 +136,15 @@ class _ImageView360State extends State<ImageView360> {
   }
 
   void handleRightSwipe(DragUpdateDetails details) {
-    int? originalindex = rotationIndex;
+    int? originalIndex = rotationIndex;
     if ((localPosition +
-            (pow(4, (6 - senstivity)) / (widget.imageList.length))) <=
+            (pow(4, (6 - sensitivity)) / (widget.imageList.length))) <=
         details.localPosition.dx) {
       rotationIndex = rotationIndex + 1;
       localPosition = details.localPosition.dx;
     }
     // Check to ignore rebuild of widget is index is same
-    if (originalindex != rotationIndex) {
+    if (originalIndex != rotationIndex) {
       setState(() {
         if (rotationIndex < widget.imageList.length - 1) {
           rotationIndex = rotationIndex;
@@ -157,18 +157,18 @@ class _ImageView360State extends State<ImageView360> {
   }
 
   void handleLeftSwipe(DragUpdateDetails details) {
-    double distancedifference = (details.localPosition.dx - localPosition);
-    int? originalindex = rotationIndex;
-    if (distancedifference < 0) {
-      distancedifference = (-distancedifference);
+    double distanceDifference = (details.localPosition.dx - localPosition);
+    int? originalIndex = rotationIndex;
+    if (distanceDifference < 0) {
+      distanceDifference = (-distanceDifference);
     }
-    if (distancedifference >=
-        (pow(4, (6 - senstivity)) / (widget.imageList.length))) {
+    if (distanceDifference >=
+        (pow(4, (6 - sensitivity)) / (widget.imageList.length))) {
       rotationIndex = rotationIndex - 1;
       localPosition = details.localPosition.dx;
     }
     // Check to ignore rebuild of widget is index is same
-    if (originalindex != rotationIndex) {
+    if (originalIndex != rotationIndex) {
       setState(() {
         if (rotationIndex > 0) {
           rotationIndex = rotationIndex;

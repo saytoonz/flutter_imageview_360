@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:imageview360/imageview360.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,13 +14,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DemoPage(title: 'ImageView360 Demo'),
+      home: const DemoPage(title: 'ImageView360 Demo'),
     );
   }
 }
 
 class DemoPage extends StatefulWidget {
-  DemoPage({
+  const DemoPage({
     Key? key,
     required this.title,
   }) : super(key: key);
@@ -26,7 +28,7 @@ class DemoPage extends StatefulWidget {
   final String title;
 
   @override
-  _DemoPageState createState() => _DemoPageState();
+  State<DemoPage> createState() => _DemoPageState();
 }
 
 class _DemoPageState extends State<DemoPage> {
@@ -37,7 +39,7 @@ class _DemoPageState extends State<DemoPage> {
   int swipeSensitivity = 2;
   bool allowSwipeToRotate = true;
   RotationDirection rotationDirection = RotationDirection.anticlockwise;
-  Duration frameChangeDuration = Duration(milliseconds: 50);
+  Duration frameChangeDuration = const Duration(milliseconds: 50);
   bool imagePreCached = false;
 
   @override
@@ -70,16 +72,16 @@ class _DemoPageState extends State<DemoPage> {
                         rotationCount: rotationCount,
                         canOverrideRotation: canOverrideRotation,
                         rotationDirection: RotationDirection.anticlockwise,
-                        frameChangeDuration: Duration(milliseconds: 30),
+                        frameChangeDuration: const Duration(milliseconds: 30),
                         swipeSensitivity: swipeSensitivity,
                         allowSwipeToRotate: allowSwipeToRotate,
                         onImageIndexChanged: (currentImageIndex) {
-                          print("currentImageIndex: $currentImageIndex");
+                          debugPrint("currentImageIndex: $currentImageIndex");
                         },
                       )
-                    : Text("Pre-Caching images..."),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                    : const Text("Pre-Caching images..."),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                     "Optional features:",
                     style: TextStyle(
@@ -122,7 +124,7 @@ class _DemoPageState extends State<DemoPage> {
   void updateImageList(BuildContext context) async {
     for (int i = 1; i <= 52; i++) {
       imageList.add(AssetImage('assets/sample/$i.png'));
-      //* To precache images so that when required they are loaded faster.
+      //* To pre-cache images so that when required they are loaded faster.
       await precacheImage(AssetImage('assets/sample/$i.png'), context);
     }
     setState(() {

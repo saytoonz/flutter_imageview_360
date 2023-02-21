@@ -17,8 +17,11 @@ class ImageView360 extends StatefulWidget {
   // By default true. If set to false, the gestures to rotate the image will be disabled.
   final bool allowSwipeToRotate;
 
-  // By default 1. The no of cycles the whole image rotation should take place.
+  // By default 1. The number of cycles the whole image rotation should take place.
   final int rotationCount;
+
+  // By default true. Allow user swipe action to stop the default rotation
+  final bool canOverrideRotation;
 
   // By default 1. Based on the value the sensitivity of swipe gesture increases and decreases proportionally
   final int swipeSensitivity;
@@ -38,6 +41,7 @@ class ImageView360 extends StatefulWidget {
     this.autoRotate = false,
     this.allowSwipeToRotate = true,
     this.rotationCount = 1,
+    this.canOverrideRotation = true,
     this.swipeSensitivity = 1,
     this.rotationDirection = RotationDirection.clockwise,
     this.frameChangeDuration = const Duration(milliseconds: 80),
@@ -136,6 +140,8 @@ class _ImageView360State extends State<ImageView360> {
   }
 
   void handleRightSwipe(DragUpdateDetails details) {
+    _checkAndOverrideDefaultRotation();
+
     int? originalIndex = rotationIndex;
     if ((localPosition +
             (pow(4, (6 - sensitivity)) / (widget.imageList.length))) <=
@@ -157,6 +163,8 @@ class _ImageView360State extends State<ImageView360> {
   }
 
   void handleLeftSwipe(DragUpdateDetails details) {
+    _checkAndOverrideDefaultRotation();
+
     double distanceDifference = (details.localPosition.dx - localPosition);
     int? originalIndex = rotationIndex;
     if (distanceDifference < 0) {
@@ -177,6 +185,16 @@ class _ImageView360State extends State<ImageView360> {
         }
       });
       onImageIndexChanged(rotationIndex);
+    }
+  }
+
+  void _checkAndOverrideDefaultRotation() {
+    // if rotating automatically and user try to swipe stop rotation
+    if (widget.canOverrideRotation &&
+        rotationCompleted < widget.rotationCount) {
+      setState(() {
+        rotationCompleted = widget.rotationCount;
+      });
     }
   }
 }

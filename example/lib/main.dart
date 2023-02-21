@@ -33,6 +33,7 @@ class _DemoPageState extends State<DemoPage> {
   List<ImageProvider> imageList = <ImageProvider>[];
   bool autoRotate = true;
   int rotationCount = 10;
+  bool canOverrideRotation = true;
   int swipeSensitivity = 2;
   bool allowSwipeToRotate = true;
   RotationDirection rotationDirection = RotationDirection.anticlockwise;
@@ -67,6 +68,7 @@ class _DemoPageState extends State<DemoPage> {
                         imageList: imageList,
                         autoRotate: autoRotate,
                         rotationCount: rotationCount,
+                        canOverrideRotation: canOverrideRotation,
                         rotationDirection: RotationDirection.anticlockwise,
                         frameChangeDuration: Duration(milliseconds: 30),
                         swipeSensitivity: swipeSensitivity,
@@ -86,9 +88,19 @@ class _DemoPageState extends State<DemoPage> {
                         fontSize: 24),
                   ),
                 ),
-                DescWidget(text: "Auto rotate: $autoRotate"),
-                DescWidget(text: "Rotation count: $rotationCount"),
-                DescWidget(text: "Rotation direction: $rotationDirection"),
+                DescWidget(
+                  text: "Auto rotate: $autoRotate",
+                ),
+                DescWidget(
+                  text: "Rotation count: $rotationCount",
+                ),
+                DescWidget(
+                  text: "Allow user swipe to stop auto rotation:"
+                      " $canOverrideRotation",
+                ),
+                DescWidget(
+                  text: "Rotation direction: $rotationDirection",
+                ),
                 DescWidget(
                   text: "Frame change duration: "
                       "${frameChangeDuration.inMilliseconds} milliseconds",
@@ -96,7 +108,9 @@ class _DemoPageState extends State<DemoPage> {
                 DescWidget(
                   text: "Allow swipe to rotate image: $allowSwipeToRotate",
                 ),
-                DescWidget(text: "Swipe sensitivity: $swipeSensitivity"),
+                DescWidget(
+                  text: "Swipe sensitivity: $swipeSensitivity",
+                ),
               ],
             ),
           ),
